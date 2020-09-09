@@ -78,7 +78,7 @@ class DoublyLinkedList {
         return this;
     }
 
-    // returns a Node at a given index
+    // returns a Node at a given index - O(N)
     get(index) {
         if (index < 0 || index >= this.length) return null;
         let count, current;
@@ -107,10 +107,42 @@ class DoublyLinkedList {
         foundNode.val = val;
         return true;
     }
+
+    // add a new Node in the Linked List given an index - O(1)
+    insert(val, index) {
+        if (index < 0 || index > this.length) return false;
+        if (index === 0) return !!this.unshift(val);
+        if (index === this.length) return !!this.push(val);
+        const newNode = new Node(val);
+        const prev = this.get(index - 1);
+        const next = prev.next;
+        newNode.next = next;
+        newNode.prev = prev;
+        prev.next = newNode;
+        next.prev = newNode;
+        this.length += 1;
+        return true;
+    }
+
+    // remove a Node in the Linked List given an index - O(1)
+    remove(index) {
+        if (index < 0 || index >= this.length) return undefined;
+        if (index === 0) return this.shift();
+        if (index === this.length - 1) return this.pop();
+        const removed = this.get(index);
+        const prev = removed.prev;
+        const next = removed.next;
+        prev.next = next;
+        next.prev = prev;
+        removed.next = null, removed.prev = null;
+        this.length -= 1;
+        return removed;
+    }
 }
 
 const list = new DoublyLinkedList();
 list.push(100);
 list.push(200);
-console.log(list.set(150, 2));
+list.push(300);
+console.log(list.remove(0));
 console.log(list);
