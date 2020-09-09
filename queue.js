@@ -14,7 +14,7 @@ class Queue {
         this.size = 0;
     }
 
-    // add a Node to the end of the Queue
+    // add a Node to the end of the Queue - O(1)
     enqueue(val) {
         const newNode = new Node(val);
         if (!this.first) {
@@ -27,7 +27,7 @@ class Queue {
         return this.size += 1;
     }
 
-    // remove Node from the beginning of the Queue
+    // remove Node from the beginning of the Queue - O(1)
     dequeue() {
         if (!this.first) return null;
         const temp = this.first;
