@@ -72,15 +72,76 @@ class SinglyLinkedList {
         this.length += 1;
         return this;
     }
+
+    // get the node given the index
+    get(index) {
+        if (index < 0 || index >= this.length) return null;
+        let currentIndex = 0;
+        let current = this.head;
+        while (currentIndex !== index) {
+            current = current.next
+            currentIndex += 1;
+        }
+        return current;
+    }
+
+    // change the value of a node given the value and index
+    set(val, index) {
+        const foundNode = this.get(index);
+        if (foundNode) {
+            foundNode.val = val;
+            return true;
+        }
+        return false;
+    }
+
+    // insert a new node at a given index - O(1)
+    insert(val, index) {
+        if (index < 0 || index > this.length) return false;
+        if (index === this.length) return !!this.push(val);
+        if (index === 0) return !!this.unshift(val);
+        const newNode = new Node(val);
+        const prev = this.get(index - 1);
+        const after = this.get(index);
+        prev.next = newNode;
+        newNode.next = after;
+        this.length += 1;
+        return true;
+    }
+
+    // remove a node at a given index - O(1) / O(N) (end of list)
+    remove(index) {
+        if (index < 0 || index > this.length) return false;
+        if (index === this.length - 1) return this.pop();
+        if (index === 0) return this.shift();
+        const prev = this.get(index - 1);
+        const removed = prev.next;
+        prev.next = removed.next;
+        this.length -= 1;
+        return removed;
+    }
+
+    // reverse linked list in place
+    reverse() {
+        let node = this.head;
+        this.head = this.tail;
+        this.tail = node;
+        let next;
+        let prev = null;
+        for (let i = 0; i < this.length; i++) {
+            next = node.next;
+            node.next = prev;
+            prev = node;
+            node = next;
+        }
+        return this;
+    }
 }
 
 let list = new SinglyLinkedList();
-list.push(1);
-list.push(2);
-list.push(3);
-list.shift();
-list.shift();
-list.shift();
-list.unshift(1);
-list.unshift(2);
-console.log(list);
+list.push(100);
+list.push(201);
+list.push(250);
+list.push(350);
+console.log(list.remove(1));
+console.log(list.reverse());
