@@ -3,6 +3,7 @@ class MaxBinaryHeap {
         this.values = [];
     }
 
+    // O(logN)
     insert(value) {
         this.values.push(value);
         this.bubbleUp();
